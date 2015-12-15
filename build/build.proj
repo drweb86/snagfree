@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<OutputDirectory>..\output</OutputDirectory>
+		<ArtifactsDirectory>..\artifacts</ArtifactsDirectory>
+	</PropertyGroup>
+	<Target Name="Build">
+		<CallTarget Targets="CLEAN" />
+		<CallTarget Targets="BUILD_SOLUTION" />
+		<CallTarget Targets="PREPARE_ARTIFACTS" />
+	</Target>
+
+	<Target Name="BUILD_SOLUTION">
+		<Message Text="Building SnagFree..." />
+
+		<MSBuild 
+			Projects="..\src\SnagFree.sln" 
+			Targets="Clean;Rebuild"
+			BuildInParallel="true" 
+			Properties="Configuration=Release;DebugSymbols=false;DebugType=None" 
+			UnloadProjectsOnCompletion="true" />
+	</Target>
+
+	<Target Name="CLEAN">
+		<RemoveDir 
+			Directories="$(OutputDirectory);$(ArtifactsDirectory)" />
+	</Target>
+
+	<Target Name="PREPARE_ARTIFACTS">
+		<PropertyGroup>
+			<SevenZipExecutable>c:\Program Files\7-Zip\7z.exe</SevenZipExecutable>
+		</PropertyGroup>
+
+		<Error
+			Condition="!Exists($(SevenZipExecutable))"
+			Text="7-zip is missing. Please install 7-zip x64 to default location: $(SevenZipExecutable)."/>
+
+		<Exec
+			Command="&quot;$(SevenZipExecutable)&quot; a &quot;$(ArtifactsDirectory)\SnagFree.7z&quot; &quot;$(OutputDirectory)\*&quot;"
+                        ContinueOnError="false" />
+	</Target>
+</Project>

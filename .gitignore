@@ -8,3 +8,4 @@ src/Editor/obj/
 src/SnagFree.Common/obj/
 src/SnagFree.Editor.Controls/obj/
 output/
+artifacts/
