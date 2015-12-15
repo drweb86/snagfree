@@ -1,1 +1,10 @@
 *.~ml
+src/SnagFree.Editor/obj/
+src/SnagFree.Editor/bin/
+src/SnagFree.TrayApp/obj/
+src/Editor.Common/obj/
+src/Editor.Controls/obj/
+src/Editor/obj/
+src/SnagFree.Common/obj/
+src/SnagFree.Editor.Controls/obj/
+src/output/
