@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace Windowless_Sample
+namespace SnagFree.TrayApp
 {
     /// <summary>
     /// Provides bindable properties and commands for the NotifyIcon. In this sample, the
@@ -53,7 +53,7 @@ namespace Windowless_Sample
         {
             get
             {
-                return new DelegateCommand {CommandAction = () => Application.Current.Shutdown()};
+                return new DelegateCommand { CommandAction = () => Application.Current.Shutdown() };
             }
         }
     }
@@ -74,7 +74,7 @@ namespace Windowless_Sample
 
         public bool CanExecute(object parameter)
         {
-            return CanExecuteFunc == null  || CanExecuteFunc();
+            return CanExecuteFunc == null || CanExecuteFunc();
         }
 
         public event EventHandler CanExecuteChanged
