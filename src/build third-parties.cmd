@@ -1,7 +1,7 @@
 @echo off
 
 set msbuildLocation="C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe"
-set logFile=build.log
+set logFile=build-third-parties.log
 
 if not exist %msbuildLocation% (
 	echo Cannot find %msbuildLocation%. Please install Visual Studio 2015 Community Edition and Windows 10 SDK
@@ -15,9 +15,11 @@ if %ERRORLEVEL% NEQ 0 (
 	exit 1
 )
 
-%msbuildLocation% "build-wrapper.proj" ^
-	/target:build ^
-	/Property:someproperty=somevalueRelease ^
+%msbuildLocation% "third-party\Hardcodet.NotifyIcon.Wpf\Hardcodet.NotifyIcon.Wpf\Source\NotifyIconWpf.sln" ^
+	/target:Rebuild ^
+	/Property:Configuration=Release ^
+	/Property:DebugSymbols=false ^
+	/Property:DebugType=None ^
 	/fl /flp:logfile=%logFile%;verbosity=normal
 rem	/fl /flp:logfile=%logFile%;verbosity=diagnostic
 
