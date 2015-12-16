@@ -1,0 +1,4 @@
+Component:	notifyicon-wpf
+Author:		john@wezeku.com
+URL:	https://bitbucket.org/wezeku/notifyicon-wpf
+Commit:	08a3b76 at master
