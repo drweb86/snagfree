@@ -20,5 +20,18 @@ namespace SnagFree.TrayApp.Core
             if (!Directory.Exists(SnagFreeLibrary))
                 Directory.CreateDirectory(SnagFreeLibrary);
         }
+
+        public static string GenerateOutputScreenshotFileName()
+        {
+            string fileName;
+
+            do
+            {
+                fileName = Path.Combine(SnagFreeLibrary, $"{DateTime.Now:yyyy-MM-dd HH-mm-ss}.bmp");
+            }
+            while (File.Exists(fileName));
+
+            return fileName;
+        }
     }
 }

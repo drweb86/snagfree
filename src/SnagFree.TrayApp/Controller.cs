@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows;
 using SnagFree.TrayApp.Core;
 
 namespace SnagFree.TrayApp
@@ -53,18 +52,40 @@ namespace SnagFree.TrayApp
             if (e.KeyboardData.vkCode != GlobalKeyboardHook.VkSnapshot)
                 return;
 
-            // seems, not needed in the life.
-            //if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.SysKeyDown &&
-            //    e.KeyboardData.flags == GlobalKeyboardHook.LlkhfAltdown)
-            //{
-            //    MessageBox.Show("Alt + Print Screen");
-            //    e.Handled = true;
-            //}
-            //else
             if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
             {
-                MessageBox.Show("Print Screen");
-                e.Handled = true;
+                TakeScreenshot();
+            }
+        }
+
+        private readonly object _syncObject = new object();
+        private DateTime _takingScreenshotDate = DateTime.MinValue;
+        private void TakeScreenshot()
+        {
+            //TODO: investigate: Taking screenshots quickly makes application fail for unknown reason with global keys. problem is not reproduced with doing other stuff.
+            //TODO: other library?
+            lock (_syncObject)
+            {
+                if (DateTime.Now - _takingScreenshotDate < new TimeSpan(0,0,0,3))
+                    return;
+
+                _takingScreenshotDate = DateTime.Now;
+            }
+
+            string fileName = ApplicationDirectories.GenerateOutputScreenshotFileName();
+
+            using (var screenshot = ScreenshotTaker.TakeScreenshot())
+            {
+                screenshot.Save(fileName);
+            }
+
+            try
+            {
+                Process.Start(fileName);
+            }
+            catch
+            {
+                Process.Start("explorer.exe", @"/select, " + fileName);
             }
         }
 
