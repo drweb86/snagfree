@@ -34,12 +34,14 @@ namespace SnagFree.TrayApp
                 MessageBox.Show(exception.Message, ApplicationInformation.Name, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(1);
             }
+            _controller.SetupKeyboardHooks();
 
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             _notifyIcon.Dispose(); //the icon would clean up automatically, but this is cleaner
+            _controller.Dispose();
             base.OnExit(e);
         }
     }

@@ -72,6 +72,7 @@
     <Compile Include="Core\ApplicationDirectories.cs" />
     <Compile Include="Core\ApplicationInformation.cs" />
     <Compile Include="Core\ApplicationSingleInstancePerUser.cs" />
+    <Compile Include="Core\GlobalKeyboardHook.cs" />
     <Compile Include="Core\ProcessHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Windows;
 using SnagFree.TrayApp.Core;
 
 namespace SnagFree.TrayApp
 {
-    class Controller
+    class Controller : IDisposable
     {
+        private GlobalKeyboardHook _globalKeyboardHook;
         public Model Model { get; private set; }
         private ApplicationSingleInstancePerUser _singleInstancePerUser;
 
@@ -43,6 +40,37 @@ namespace SnagFree.TrayApp
                 Thread.Sleep(timeoutMsec);
             }
             throw new InvalidOperationException("Other instance of SnagFree is running. Attempts to terminate it failed. Logoff/login is required.");
+        }
+
+        public void SetupKeyboardHooks()
+        {
+            _globalKeyboardHook = new GlobalKeyboardHook();
+            _globalKeyboardHook.KeyboardPressed += OnKeyPressed;
+        }
+
+        private void OnKeyPressed(object sender, GlobalKeyboardHookEventArgs e)
+        {
+            if (e.KeyboardData.vkCode != GlobalKeyboardHook.VkSnapshot)
+                return;
+
+            // seems, not needed in the life.
+            //if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.SysKeyDown &&
+            //    e.KeyboardData.flags == GlobalKeyboardHook.LlkhfAltdown)
+            //{
+            //    MessageBox.Show("Alt + Print Screen");
+            //    e.Handled = true;
+            //}
+            //else
+            if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+            {
+                MessageBox.Show("Print Screen");
+                e.Handled = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            _globalKeyboardHook?.Dispose();
         }
     }
 }
