@@ -9,3 +9,5 @@ src/SnagFree.Common/obj/
 src/SnagFree.Editor.Controls/obj/
 output/
 artifacts/
+src/SnagFree.Setup/obj/
+src/third-party/WixSharp/
